@@ -1,1 +1,2 @@
 Use refreshdatabase trait when testing - Episode 4
+php artisan ui vue --auth instead of php artisan make:auth - Episode 5
