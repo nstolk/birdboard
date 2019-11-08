@@ -1,0 +1,1 @@
+Use refreshdatabase trait when testing - Episode 4
