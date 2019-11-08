@@ -35,14 +35,14 @@ class ProjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         $attributes = request()->validate([
             'title' => 'required',
             'description' => 'required'
         ]);
 
-        Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
 
         return redirect('/projects');
     }
@@ -50,7 +50,7 @@ class ProjectsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Project $project
      * @return \Illuminate\Http\Response
      */
     public function show(Project $project)
