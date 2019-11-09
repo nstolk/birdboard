@@ -49,13 +49,13 @@ class ManageProjectsTest extends TestCase
     {
         $this->be(factory('App\User')->create());
 
-//        $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
 
         $this->get($project->path())
             ->assertSee($project->title)
-            ->assertSee($project->description);
+            ->assertSee(str_limit($project->description, 100));
 
     }
 
