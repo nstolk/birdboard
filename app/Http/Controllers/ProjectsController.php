@@ -39,7 +39,8 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'notes' => 'min:3'
         ]);
 
         $project = auth()->user()->projects()->create($attributes);
@@ -52,12 +53,12 @@ class ProjectsController extends Controller
      *
      * @param Project $project
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Project $project)
     {
-        if (auth()->user()->isNot($project->owner))  {
-            abort(403);
-        }
+        $this->authorize('update', $project);
+
         return view('projects.show', compact('project'));
     }
 
@@ -75,13 +76,17 @@ class ProjectsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(Project $project)
     {
-        //
+        $this->authorize('update', $project);
+
+        $project->update(request(['notes']));
+
+        return redirect($project->path());
     }
 
     /**
