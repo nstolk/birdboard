@@ -68,10 +68,8 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param Project $project
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Project $project)
@@ -94,15 +92,12 @@ class ProjectsController extends Controller
         //
     }
 
-    /**
-     * @return array|bool|null
-     */
     protected function validateRequest()
     {
         return request()->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'notes' => 'min:3'
+            'title' => 'sometimes|required',
+            'description' => 'sometimes|required',
+            'notes' => 'nullable'
         ]);
     }
 }
