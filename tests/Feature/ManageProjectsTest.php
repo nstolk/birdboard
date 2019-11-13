@@ -51,6 +51,17 @@ class ManageProjectsTest extends TestCase
             ->assertSee($attributes['notes']);
     }
 
+    public function test_a_user_can_see_all_projects_they_have_been_invited_to_on_their_dashboard()
+    {
+        $user = $this->signIn();
+
+        $project = app(ProjectFactorySetup::class)->create();
+        $project->invite($user);
+
+        $this->get('/projects')->assertSee($project->title);
+    }
+
+
     public function test_unauthorized_users_cannot_delete_a_project()
     {
         $project = app(ProjectFactorySetup::class)->create();
@@ -82,7 +93,7 @@ class ManageProjectsTest extends TestCase
             ->patch($project->path(), $attributes = ['title' => 'changed', 'description' => 'changed', 'notes' => 'changed'])
             ->assertRedirect($project->path());
 
-        $this->get($project->path().'/edit')->assertOk();
+        $this->get($project->path() . '/edit')->assertOk();
 
         $this->assertDatabaseHas('projects', $attributes);
     }
@@ -95,7 +106,7 @@ class ManageProjectsTest extends TestCase
             ->patch($project->path(), $attributes = ['notes' => 'changed'])
             ->assertRedirect($project->path());
 
-        $this->get($project->path().'/edit')->assertOk();
+        $this->get($project->path() . '/edit')->assertOk();
 
         $this->assertDatabaseHas('projects', $attributes);
     }

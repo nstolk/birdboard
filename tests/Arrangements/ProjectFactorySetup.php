@@ -22,6 +22,8 @@ class ProjectFactorySetup
     public function ownedBy($user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     public function create()

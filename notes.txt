@@ -1,3 +1,4 @@
 Use refreshdatabase trait when testing - Episode 4
 php artisan ui vue --auth instead of php artisan make:auth - Episode 5
 test A user can view their project fails auth because of failure to cast to integer? - Episode 6
+Tap - Always returns what was passed in the tap function - Episode 31
