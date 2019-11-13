@@ -14,11 +14,11 @@
                          alt="{{ $member->name }}'s avatar"
                          class="rounded-full w-8">
                 @endforeach
-                    <img src="{{ gravatar_url($project->owner->email) }}"
-                         alt="{{ $project->owner->name }}'s avatar"
-                         class="rounded-full w-8">
+                <img src="{{ gravatar_url($project->owner->email) }}"
+                     alt="{{ $project->owner->name }}'s avatar"
+                     class="rounded-full w-8">
 
-                    <a href=" {{ $project->path() . "/edit" }}" class="button ml-4">Edit Project</a>
+                <a href=" {{ $project->path() . "/edit" }}" class="button ml-4">Edit Project</a>
 
             </div>
         </div>
@@ -68,13 +68,16 @@
 
                         <button type="submit" class="button">Save</button>
                     </form>
-
+                    @include ('errors')
                 </div>
             </div>
 
             <div class="lg:w-1/3 px-3">
                 @include ('projects.card')
                 @include ('projects.activity.card')
+                @can ('manage', $project)
+                    @include ('projects.invite')
+                @endcan
             </div>
         </div>
     </main>
