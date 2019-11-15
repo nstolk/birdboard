@@ -1,43 +1,49 @@
 <template>
     <modal name="new-project" classes="p-10 bg-card rounded-lg" height="auto">
-        <h1 class="font-normal mb-16 text-center text-2xl">Let's Start Something New</h1>
+        <h1 class="font-normal mb-16 text-center text-2xl">Let’s Start Something New</h1>
 
         <form @submit.prevent="submit">
             <div class="flex">
                 <div class="flex-1 mr-4">
                     <div class="mb-4">
-                        <label for="title" class="text-sm mb-2">Title</label>
-                        <input type="text"
-                               id="title"
-                               class="border p-2 text-xs block w-full rounded"
-                               :class="errors.title ? 'border-error' : 'border-muted-light'"
-                               v-model="form.title">
+                        <label for="title" class="text-sm block mb-2">Title</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            class="border p-2 text-xs block w-full rounded"
+                            :class="errors.title ? 'border-error' : 'border-muted-light'"
+                            v-model="form.title">
+
                         <span class="text-xs italic text-error" v-if="errors.title" v-text="errors.title[0]"></span>
                     </div>
 
                     <div class="mb-4">
-                        <label for="description" class="text-sm mb-2">Description</label>
-                        <textarea
-                            type="text"
-                            id="description"
-                            class="border border-muted-light py-2 text-xs block w-full rounded" rows="7"
-                            v-model="form.description"></textarea>
+                        <label for="description" class="text-sm block mb-2">Description</label>
 
-                        <span class="text-xs italic text-error" v-if="errors.description"
+                        <textarea id="description"
+                                  class="border border-muted-light p-2 text-xs block w-full rounded"
+                                  rows="7"
+                                  v-model="form.description"></textarea>
+
+                        <span class="text-xs italic text-error"
+                              v-if="errors.description"
                               v-text="errors.description[0]"></span>
-
                     </div>
                 </div>
+
                 <div class="flex-1 ml-4">
                     <div class="mb-4">
-                        <label class="text-sm mb-2">Need Some Tasks?</label>
-                        <input type="text"
-                               class="border border-muted-light mb-2 py-2 text-xs block w-full rounded"
-                               placeholder="Task 1"
-                               v-for="task in form.tasks"
-                               v-model="task.value">
+                        <label class="text-sm block mb-2">Need Some Tasks?</label>
+                        <input
+                            type="text"
+                            class="border border-muted-light mb-2 p-2 text-xs block w-full rounded"
+                            placeholder="Task 1"
+                            v-for="task in form.tasks"
+                            v-model="task.body">
                     </div>
-                    <button class="inline-flex items-center text-xs" @click="addTask">
+
+                    <button type="button" class="inline-flex items-center text-xs" @click="addTask">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" class="mr-2">
                             <g fill="none" fill-rule="evenodd" opacity=".307">
                                 <path stroke="#000" stroke-opacity=".012" stroke-width="0" d="M-3-3h24v24H-3z"></path>
@@ -50,8 +56,10 @@
                     </button>
                 </div>
             </div>
+
             <footer class="flex justify-end">
-                <button class="button is-outlined mr-4" @click="$modal.hide('new-project')">Cancel</button>
+                <button type="button" class="button is-outlined mr-4" @click="$modal.hide('new-project')">Cancel
+                </button>
                 <button class="button">Create Project</button>
             </footer>
         </form>
@@ -66,27 +74,21 @@
                     title: '',
                     description: '',
                     tasks: [
-                        {value: ''}
+                        {body: ''},
                     ]
                 },
-
                 errors: {}
             };
         },
-
         methods: {
             addTask() {
-                this.form.tasks.push({value: ''})
+                this.form.tasks.push({value: ''});
             },
-
             async submit() {
                 try {
-                    let response = await axios.post('/projects', this.form);
-
-                    location = response.data.message;
+                    await location = (axios.post('/projects', this.form)).data.message;
                 } catch (error) {
                     this.errors = error.response.data.errors;
-
                 }
             }
         }

@@ -41,7 +41,16 @@
 
                                 <div class="flex items-center">
                                     <input name="body" value="{{ $task->body }}" class="text-default bg-card w-full {{ $task->completed ? 'line-through text-muted' : '' }}">
-                                    <input name="completed" type="checkbox" onChange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
+                                    <input name="completed" type="checkbox" onChange="(async function (){
+                try {
+                    let response = await axios.post('/projects', this.form);
+
+                    location = response.data.message;
+                } catch (error) {
+                    this.errors = error.response.data.errors;
+
+                }
+            })()" {{ $task->completed ? 'checked' : '' }}>
                                 </div>
                             </form>
                         </div>
