@@ -29,15 +29,17 @@ class ProjectsController extends Controller
         return view('projects.create');
     }
 
+
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store()
     {
         $project = auth()->user()->projects()->create($this->validateRequest());
+
+        if (request()->wantsJson()) {
+            return ['message' => $project->path()];
+        }
 
         return redirect($project->path());
     }
