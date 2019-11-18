@@ -31,14 +31,14 @@ class ProjectsController extends Controller
 
 
     /**
-     * @return array|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return mixed
      */
     public function store()
     {
         $project = auth()->user()->projects()->create($this->validateRequest());
 
-        if (request()->has('tasks')) {
-            $project->addTasks(request('tasks'));
+        if ($tasks = request('tasks')) {
+            $project->addTasks($tasks);
         }
 
         if (request()->wantsJson()) {

@@ -21,13 +21,10 @@
                     <div class="mb-4">
                         <label for="description" class="text-sm block mb-2">Description</label>
 
-                        <textarea id="description"
-                                  class="border border-muted-light p-2 text-xs block w-full rounded"
-                                  rows="7"
-                                  v-model="form.description"></textarea>
+                        <textarea id="description" class="border border-muted-light p-2 text-xs block w-full rounded"
+                                  rows="7" v-model="form.description"></textarea>
 
-                        <span class="text-xs italic text-error"
-                              v-if="errors.description"
+                        <span class="text-xs italic text-error" v-if="errors.description"
                               v-text="errors.description[0]"></span>
                     </div>
                 </div>
@@ -86,7 +83,7 @@
             },
             async submit() {
                 try {
-                    await location = (axios.post('/projects', this.form)).data.message;
+                    location = (await axios.post('/projects', this.form)).data.message;
                 } catch (error) {
                     this.errors = error.response.data.errors;
                 }
